@@ -1,0 +1,66 @@
+{% extends 'quizzes/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Add Questions{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Add Questions to {{ quiz.title }}</h2>
+
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="card shadow mt-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="text-center">Add New Question</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ question_form|crispy }}
+
+                <h5 class="mt-4">Answers</h5>
+                <p>Select the correct answer:</p>
+                {% for i in answer_range %}
+                <div class="mb-3">
+                    <label for="answer_{{ i }}" class="form-label">Answer {{ i }}</label>
+                    <input type="text" name="answer_{{ i }}" class="form-control" required>
+                    <div class="form-check mt-2">
+                        <input type="radio" name="is_correct" value="{{ i }}" class="form-check-input" id="correct_{{ i }}" {% if forloop.first %}checked{% endif %}>
+                        <label class="form-check-label" for="correct_{{ i }}">Correct Answer</label>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Add Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <h3 class="mt-4">Existing Questions</h3>
+    {% if questions %}
+    <ul class="list-group">
+        {% for question in questions %}
+        <li class="list-group-item">
+            <strong>{{ question.text }}</strong>
+            <ul>
+                {% for answer in question.answers.all %}
+                <li {% if answer.is_correct %}class="text-success fw-bold"{% endif %}>
+                    {{ answer.text }}
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No questions added yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

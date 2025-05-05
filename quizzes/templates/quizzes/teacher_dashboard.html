@@ -1,0 +1,52 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Teacher Dashboard</h2>
+    <div class="card shadow mt-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="text-center">Your Quizzes</h4>
+        </div>
+        <div class="card-body">
+            {% if quizzes %}
+                <ul class="list-group">
+                    {% for quiz in quizzes %}
+                        <li class="list-group-item">
+                            <strong>{{ quiz.title }}</strong>
+                            <a href="{% url 'add_questions' quiz.id %}" class="btn btn-sm btn-success float-end ms-2">Add Questions</a>
+                            <a href="{% url 'edit_quiz' quiz.id %}" class="btn btn-sm btn-warning float-end ms-2">Edit Quiz</a>
+                            <a href="{% url 'delete_quiz' quiz.id %}" class="btn btn-sm btn-danger float-end">Delete Quiz</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No quizzes created yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <hr>
+
+    <h4 class="mt-4">Questions</h4>
+    {% if questions %}
+        <ul class="list-group">
+            {% for question in questions %}
+                <li class="list-group-item">
+                    <strong>{{ question.text }}</strong>
+                    <a href="{% url 'edit_question' question.id %}" class="btn btn-sm btn-warning float-end ms-2">Edit</a>
+                    <a href="{% url 'delete_question' question.id %}" class="btn btn-sm btn-danger float-end">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No questions added yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
+
+

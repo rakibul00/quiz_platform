@@ -1,0 +1,38 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}Quiz Results: {{ quiz.title }}{% endblock %}
+
+{% block content %}
+<h2>Quiz Results: {{ quiz.title }}</h2>
+<div class="card mb-4">
+    <div class="card-body">
+        <h3 class="card-title">Your Score: {{ correct }}/{{ total }} ({{ score|floatformat:2 }}%)</h3>
+    </div>
+</div>
+
+<h3>Question Breakdown</h3>
+{% for result in results %}
+<div class="card mb-3 {% if result.is_correct %}border-success{% else %}border-danger{% endif %}">
+    <div class="card-header {% if result.is_correct %}bg-success text-white{% else %}bg-danger text-white{% endif %}">
+        Question {{ forloop.counter }}: {% if result.is_correct %}Correct{% else %}Incorrect{% endif %}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ result.question.text }}</h5>
+        <p class="card-text">
+            <strong>Your answer:</strong> 
+            {% if result.student_answer %}
+                {{ result.student_answer.answer.text }}
+            {% else %}
+                Not answered
+            {% endif %}
+        </p>
+        {% if not result.is_correct %}
+        <p class="card-text text-success">
+            <strong>Correct answer:</strong> 
+            {{ result.correct_answer.text }}
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

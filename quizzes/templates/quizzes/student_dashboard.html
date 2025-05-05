@@ -1,0 +1,16 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<h2>Available Quizzes</h2>
+<div class="list-group">
+    {% for quiz in quizzes %}
+    <a href="{% url 'take_quiz' quiz.id %}" class="list-group-item list-group-item-action">
+        {{ quiz.title }} ({{ quiz.questions.count }} questions)
+    </a>
+    {% empty %}
+    <p>No quizzes available at the moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}
