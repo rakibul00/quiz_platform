@@ -5,6 +5,21 @@
 {% block content %}
 <div class="container mt-4">
     <h2 class="text-center">Teacher Dashboard</h2>
+
+    <div class="mb-3 text-end">
+        <a href="{% url 'create_quiz' %}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> New Quiz
+        </a>
+    </div>
+
+    {% if quizzes %}
+        <div class="mb-3 text-end">
+            <a href="{% url 'add_questions' quizzes.0.id %}" class="btn btn-success">
+                <i class="bi bi-plus-lg"></i> Add New Question
+            </a>
+        </div>
+    {% endif %}
+
     <div class="card shadow mt-4">
         <div class="card-header bg-primary text-white">
             <h4 class="text-center">Your Quizzes</h4>
